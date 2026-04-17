@@ -1,0 +1,10 @@
+openai
+pytesseract
+Pillow
+pdfplumber
+pandas
+sqlalchemy
+python-dotenv
+fastapi
+uvicorn
+openpyxl
