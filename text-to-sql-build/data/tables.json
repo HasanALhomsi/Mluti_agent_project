@@ -1,0 +1,44 @@
+[
+    {
+        "tableName": "sales",
+        "columns": [
+            {
+                "columnName": "Transaction ID",
+                "type": "NUMBER",
+                "isPrimary": true
+            },
+            {
+                "columnName": "Date",
+                "type": "TEXT"
+            },
+            {
+                "columnName": "Product Category",
+                "type": "TEXT"
+            },
+            {
+                "columnName": "Product Name",
+                "type": "TEXT"
+            },
+            {
+                "columnName": "Units Sold",
+                "type": "NUMBER"
+            },
+            {
+                "columnName": "Unit Price",
+                "type": "NUMBER"
+            },
+            {
+                "columnName": "Total Revenue",
+                "type": "NUMBER"
+            },
+            {
+                "columnName": "Region",
+                "type": "STRING"
+            },
+            {
+                "columnName": "Payment Method",
+                "type": "STRING"
+            }
+        ]
+    }
+]
