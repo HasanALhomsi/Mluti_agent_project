@@ -12,6 +12,11 @@ client = OpenAI(
 )
 MODEL = os.getenv("MODEL_NAME")
 
+text_to_sql_client = OpenAI(
+    api_key=os.getenv("GHAYMAH_API_KEY"),
+    base_url=os.getenv("GHAYMAH_BASE_URL")
+)
+
 # ── PostgreSQL Connection ────────────────────
 DB_HOST     = os.getenv("DB_HOST")
 DB_PORT     = os.getenv("DB_PORT", "5432")

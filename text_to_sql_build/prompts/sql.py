@@ -35,24 +35,24 @@ def build_schema_linking_prompt(question, schema):
         {question}
 
         Return format (STRICT JSON):
-        {
+        {{
         "tables": ["table1", "table2"],
-        "columns": {
+        "columns": {{
             "table1": [
-            { "type": "int", "column": "col1 name", "isPrimary": true },
-            { "type": "varchar", "column": "col2 name", "isPrimary": false }
+            {{ "type": "int", "column": "col1 name", "isPrimary": true }},
+            {{ "type": "varchar", "column": "col2 name", "isPrimary": false }}
             ],
             "table2": [
-            { "type": "int", "column": "col1 name", "isPrimary": true }
+            {{ "type": "int", "column": "col1 name", "isPrimary": true }}
             ]
-        }}
+        }} }}
 
         Rules:
         - Only include necessary tables
         - Only include necessary columns
         - Do NOT include explanations
         - Output ONLY valid JSON
-        """
+    """
 
 def review_sql_prompt(question, schema, sql):
     return f"""

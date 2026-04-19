@@ -1,0 +1,1 @@
+from config import text_to_sql_client as client

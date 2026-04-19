@@ -22,6 +22,7 @@ def clean_selection_tables(text: str):
         }
 
 def clean_sql_output(text: str) -> str:
+    print("\n🔍 Raw SQL Output:\n", text)
     if not text:
         return ""
 
@@ -42,3 +43,5 @@ def clean_sql_output(text: str) -> str:
 
     if not text.lower().startswith("select"):
         return ""
+
+    return text

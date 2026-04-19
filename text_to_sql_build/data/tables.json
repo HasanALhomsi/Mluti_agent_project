@@ -1,42 +1,42 @@
 [
     {
-        "tableName": "sales",
+        "tableName": "products",
         "columns": [
             {
-                "columnName": "Transaction ID",
+                "columnName": "transaction_id",
                 "type": "NUMBER",
                 "isPrimary": true
             },
             {
-                "columnName": "Date",
+                "columnName": "data",
                 "type": "TEXT"
             },
             {
-                "columnName": "Product Category",
+                "columnName": "product_category",
                 "type": "TEXT"
             },
             {
-                "columnName": "Product Name",
+                "columnName": "product_name",
                 "type": "TEXT"
             },
             {
-                "columnName": "Units Sold",
+                "columnName": "units_sold",
                 "type": "NUMBER"
             },
             {
-                "columnName": "Unit Price",
+                "columnName": "unit_price",
                 "type": "NUMBER"
             },
             {
-                "columnName": "Total Revenue",
+                "columnName": "total_revenue",
                 "type": "NUMBER"
             },
             {
-                "columnName": "Region",
+                "columnName": "region",
                 "type": "STRING"
             },
             {
-                "columnName": "Payment Method",
+                "columnName": "payment_method",
                 "type": "STRING"
             }
         ]

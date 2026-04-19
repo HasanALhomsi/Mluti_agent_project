@@ -1,7 +1,7 @@
-from llm.client import client
-from llm.models import DeepSeek
-from prompts.sql import build_schema_linking_prompt, build_sql_prompt, debug_sql_prompt, plan_sql_prompt, review_sql_prompt
-from services.helpers import clean_selection_tables, clean_sql_output
+from text_to_sql_build.llm.client import client
+from text_to_sql_build.llm.models import DeepSeek
+from text_to_sql_build.prompts.sql import build_schema_linking_prompt, build_sql_prompt, debug_sql_prompt, plan_sql_prompt, review_sql_prompt
+from text_to_sql_build.services.helpers import clean_selection_tables, clean_sql_output
 
 def llm_model_response(prompt, model=DeepSeek):
     response = client.chat.completions.create(

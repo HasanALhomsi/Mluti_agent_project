@@ -20,6 +20,7 @@ def fetch_all_tables():
 
 def fetch_table_data(table_name: str, limit: int = 10):
     """جلب وطباعة بيانات جدول معين"""
+    print(f"\n📊 جلب بيانات من جدول: {table_name} (الحد الأقصى: {limit} صفوف)")
     try:
         with engine.connect() as conn:
             # جلب البيانات

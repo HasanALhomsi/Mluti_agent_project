@@ -3,6 +3,69 @@ import pytesseract
 from PIL import Image
 import pandas as pd
 from config import client, MODEL
+import re
+
+def clean_extraction_info_response(text: str) -> str:
+    # Remove <think>...</think> (including multiline)
+    text = re.sub(r"<think>.*?</think>", "", text, flags=re.DOTALL)
+
+    # Remove ```json or ``` blocks
+    text = re.sub(r"```json", "", text)
+    text = re.sub(r"```", "", text)
+
+    # Strip leading/trailing whitespace
+    text = text.strip()
+
+    return text
+
+import json
+
+def extract_main_items(clean_text: str):
+    try:
+        data = json.loads(clean_text)
+    except json.JSONDecodeError as e:
+        raise ValueError(f"Invalid JSON input: {e}")
+
+    items = data.get("items", [])
+    date = data.get("date")
+
+    if not items:
+        return (), ""
+
+    # 🔹 Collect dynamic fields from all items
+    dynamic_fields = set()
+    for item in items:
+        dynamic_fields.update(item.keys())
+
+    # 🔹 Ensure consistent order (important for DB)
+    dynamic_fields = sorted(dynamic_fields)
+
+    # 🔹 Add fixed field
+    fields = tuple(dynamic_fields + ["date"])
+
+    values_list = []
+
+    for item in items:
+        row_values = []
+
+        for field in dynamic_fields:
+            value = item.get(field)
+
+            # Proper formatting
+            if isinstance(value, str):
+                row_values.append(repr(value))
+            else:
+                row_values.append(str(value))
+
+        # Add date
+        row_values.append(repr(date))
+
+        value_tuple = f"({', '.join(row_values)})"
+        values_list.append(value_tuple)
+
+    values = ", ".join(values_list)
+
+    return fields, values
 
 def extract_data(file_info: dict) -> dict:
     """
@@ -55,7 +118,12 @@ def extract_data(file_info: dict) -> dict:
         temperature=0
     )
     
+    response = clean_extraction_info_response(response.choices[0].message.content)
+    fields, values = extract_main_items(response)
+    print("The response is:",response)
     return {
         "raw_text": extracted_text,
-        "structured_data": response.choices[0].message.content
+        "structured_data": response,
+        "fields": fields,
+        "values": values
     }

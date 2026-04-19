@@ -1,8 +1,17 @@
 import json
-import sqlite3
+import psycopg2
+from psycopg2 import OperationalError, ProgrammingError
+from config import DB_HOST, DB_PORT, DB_NAME, DB_USER, DB_PASSWORD
 
-tables_file = "./data/tables.json"
-database_files_path = "./data/database.sqlite"
+tables_file = "./text_to_sql_build/data/tables.json"
+# PostgreSQL connection parameters from config.py
+db_connection_params = {
+    "host": DB_HOST,
+    "database": DB_NAME,
+    "user": DB_USER,
+    "password": DB_PASSWORD,
+    "port": DB_PORT
+}
 
 def map_type(col_type):
     if col_type.lower() in ["text", "varchar", "char"]:
@@ -45,9 +54,13 @@ def build_schema_from_llm(schema: str) -> str:
     return "\n".join(output_lines)
 
 def execute_query(sql):
-    db_path = f"{database_files_path}"
-
-    conn = sqlite3.connect(db_path)
+    conn = psycopg2.connect(
+        host=db_connection_params["host"],
+        database=db_connection_params["database"],
+        user=db_connection_params["user"],
+        password=db_connection_params["password"],
+        port=db_connection_params["port"]
+    )
     cursor = conn.cursor()
 
     try:
@@ -62,7 +75,7 @@ def execute_query(sql):
             "type": None
         }
 
-    except sqlite3.OperationalError as e:
+    except OperationalError as e:
         conn.close()
         return {
             "success": False,
@@ -71,7 +84,7 @@ def execute_query(sql):
             "type": "operational"
         }
 
-    except sqlite3.ProgrammingError as e:
+    except ProgrammingError as e:
         conn.close()
         return {
             "success": False,
